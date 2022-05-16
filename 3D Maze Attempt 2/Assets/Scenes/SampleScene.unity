@@ -413,6 +413,7 @@ MonoBehaviour:
   outerWalls: 00000000000000000000000000000000
   gridNumX: 0
   gridNumZ: 0
+  frequency: 0
 --- !u!114 &863094422
 MonoBehaviour:
   m_ObjectHideFlags: 0

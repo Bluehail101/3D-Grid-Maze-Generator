@@ -22,11 +22,11 @@ public class RoomSpawn : MonoBehaviour
     private int pushDirection;
     private bool noDodging;
     private bool end;
-    private int randomPercent;
+    private int randomNum;
 
     void Start()
     {
-        if (GlobalVars.count > 100) { end = true; }
+        if (GlobalVars.count > 80) { end = true; }
         thisRoomInfo = gameObject.GetComponent<RoomInfo>();
         for (int i = 0; i < 4; i++)
         {
@@ -34,11 +34,13 @@ public class RoomSpawn : MonoBehaviour
             {
                 continue;
             }
+            //Stops room from performing any checks on the room it was spawned from.
 
             if (i == 0) { zChange = 1; xChange = 0; }
             else if (i == 1) { xChange = 1; zChange = 0; }
             else if (i == 2) { zChange = -1; xChange = 0; }
             else { xChange = -1; zChange = 0; }
+            //A set of variables sets that dictate which side of the room is being checked.
 
             try
             {
@@ -46,42 +48,38 @@ public class RoomSpawn : MonoBehaviour
                 continue;
             }
             catch { }
+            //A try and catch to check if the current side of the room we're looking at already has a room placed there, if it does skip this side.
             if (thisRoomInfo.outerWalls[i] == 1)
             {
                 continue;
             }
+            //If the current room has a wall of 1 (outer wall) skip it.
             complementWall = i + 2;
             if (complementWall > 3)
             {
                 complementWall -= 4;
             }
+            //Calculates what the complement wall number is essentially it finds the opposite of the current direction e.g. north == 0, so compliemnt wall would find the number that represents south, which is 3.
             validTiles.Clear();
-            randomPercent = Random.Range(0, 101);
             if(end == true)
             {
                 thisRoomList = GlobalVars.roomListEnd;
             }
             else
             {
-                if (randomPercent <= 20)
-                {
-                    thisRoomList = GlobalVars.roomList20;
-                }
-                else if (randomPercent > 20 && randomPercent <= 50)
-                {
-                    thisRoomList = GlobalVars.roomList30;
-                }
-                else
-                {
-                    thisRoomList = GlobalVars.roomList50;
-                }
+                thisRoomList = GlobalVars.roomPool;
             }
 
             for (int x = 0; x < thisRoomList.Count; x++)
             {
                 validTiles.Add(thisRoomList[x]);
             }
-            tempPrefab = Instantiate(validTiles[Random.Range(0, validTiles.Count)], new Vector3(gameObject.transform.position.x + (xChange * gameObject.transform.localScale.x), gameObject.transform.position.y, gameObject.transform.position.z + (zChange * gameObject.transform.localScale.z)), Quaternion.identity);
+            randomNum = Random.Range(0, thisRoomList.Count);
+            if(end == false)
+            {
+                GlobalVars.roomPool.RemoveAt(randomNum);
+            }
+            tempPrefab = Instantiate(validTiles[randomNum], new Vector3(gameObject.transform.position.x + (xChange * gameObject.transform.localScale.x), gameObject.transform.position.y, gameObject.transform.position.z + (zChange * gameObject.transform.localScale.z)), Quaternion.identity);
             tempPrefab.GetComponent<RoomSpawn>().spawnedFrom = complementWall;
 
             tempRoomInfo = tempPrefab.GetComponent<RoomInfo>();
@@ -138,6 +136,17 @@ public class RoomSpawn : MonoBehaviour
             }
             catch { }
         }
+    }
+    public bool checkCompatibility(List<int> walls, int wallType)
+    {
+        for (int i = 0; i < walls.Count; i++)
+        {
+            if(walls[i] == wallType)
+            {
+                return true;
+            }
+        }
+        return false;
     }
     public bool checkName(string name)
     {

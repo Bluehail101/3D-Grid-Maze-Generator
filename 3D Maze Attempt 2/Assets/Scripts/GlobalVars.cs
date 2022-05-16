@@ -6,16 +6,26 @@ public class GlobalVars : MonoBehaviour
 {
     public static int count;
     public static Dictionary<Vector2, List<int>> gridList = new Dictionary<Vector2, List<int>>();
-    public static List<GameObject> roomList20 = new List<GameObject>();
-    public static List<GameObject> roomList50 = new List<GameObject>();
-    public static List<GameObject> roomList30 = new List<GameObject>();
+    private static List<GameObject> roomList = new List<GameObject>();
+    public static List<GameObject> roomPool = new List<GameObject>();
     public static List<GameObject> roomListEnd = new List<GameObject>();
+    //private static int roomCount;
     void Awake()
     {
-        roomList20.AddRange(Resources.LoadAll<GameObject>("Rooms/20%"));
-        roomList50.AddRange(Resources.LoadAll<GameObject>("Rooms/50%"));
-        roomList30.AddRange(Resources.LoadAll<GameObject>("Rooms/30%"));
-        roomListEnd.AddRange(Resources.LoadAll<GameObject>("Rooms/End"));
+        roomList.AddRange(Resources.LoadAll<GameObject>("Rooms"));
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            for (int x = 0; x < roomList[i].GetComponent<RoomInfo>().frequency * Random.Range(4,7); x++)
+            {
+                roomPool.Add(roomList[i]);
+            }
+        }
+        Debug.Log(roomPool.Count);
+        for (int i = 0; i < roomPool.Count; i++)
+        {
+            Debug.Log(roomPool[i]);
+        }
+        roomListEnd.AddRange(Resources.LoadAll<GameObject>("End"));
         gridList.Add(new Vector2(0, 0), new List<int> { 0, 0, 0, 0 });
     }
 }
