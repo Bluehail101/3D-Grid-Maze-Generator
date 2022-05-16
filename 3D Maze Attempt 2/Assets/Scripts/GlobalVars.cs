@@ -15,7 +15,7 @@ public class GlobalVars : MonoBehaviour
         roomList.AddRange(Resources.LoadAll<GameObject>("Rooms"));
         for (int i = 0; i < roomList.Count; i++)
         {
-            for (int x = 0; x < roomList[i].GetComponent<RoomInfo>().frequency * Random.Range(8,11); x++)
+            for (int x = 0; x < (roomList[i].GetComponent<RoomInfo>().frequency * 8) + Random.Range(roomList[i].GetComponent<RoomInfo>().consistency * -5, roomList[i].GetComponent<RoomInfo>().consistency * 5); x++)
             {
                 roomPool.Add(roomList[i]);
             }

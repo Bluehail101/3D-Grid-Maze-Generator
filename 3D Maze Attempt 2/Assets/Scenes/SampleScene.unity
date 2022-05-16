@@ -194,6 +194,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114497868231759342, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
+      propertyPath: jumpStrength
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 114762042097486276, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
       propertyPath: movementSpeed
       value: 2
@@ -414,6 +418,7 @@ MonoBehaviour:
   gridNumX: 0
   gridNumZ: 0
   frequency: 0
+  consistency: 0
 --- !u!114 &863094422
 MonoBehaviour:
   m_ObjectHideFlags: 0

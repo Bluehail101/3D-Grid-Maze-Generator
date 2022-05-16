@@ -8,4 +8,5 @@ public class RoomInfo : MonoBehaviour
     public int gridNumX;
     public int gridNumZ;
     public int frequency;
+    public int consistency;
 }

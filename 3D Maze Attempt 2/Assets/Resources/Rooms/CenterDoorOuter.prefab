@@ -317,4 +317,5 @@ MonoBehaviour:
   outerWalls: 00000000000000000000000002000000
   gridNumX: 0
   gridNumZ: 0
-  frequency: 1
+  frequency: 2
+  consistency: 3

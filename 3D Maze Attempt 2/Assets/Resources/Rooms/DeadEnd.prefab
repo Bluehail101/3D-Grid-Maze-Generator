@@ -223,7 +223,8 @@ MonoBehaviour:
   outerWalls: 01000000010000000100000000000000
   gridNumX: 0
   gridNumZ: 0
-  frequency: 2
+  frequency: 4
+  consistency: 2
 --- !u!1 &4812945286530339466
 GameObject:
   m_ObjectHideFlags: 0
