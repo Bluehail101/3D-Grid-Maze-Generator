@@ -26,7 +26,7 @@ public class RoomSpawn : MonoBehaviour
 
     void Start()
     {
-        if (GlobalVars.count > 80) { end = true; }
+        if (GlobalVars.count < 10) { end = true; }
         thisRoomInfo = gameObject.GetComponent<RoomInfo>();
         for (int i = 0; i < 4; i++)
         {
@@ -113,7 +113,7 @@ public class RoomSpawn : MonoBehaviour
             tempRoomInfo.gridNumX = thisRoomInfo.gridNumX + xChange;
             tempRoomInfo.gridNumZ = thisRoomInfo.gridNumZ + zChange;
             GlobalVars.gridList.Add(new Vector2(tempRoomInfo.gridNumX, tempRoomInfo.gridNumZ), tempRoomInfo.outerWalls);
-            GlobalVars.count += 1;
+            GlobalVars.count -= 1;
         }
         for (int i = 0; i < 4; i++)
         {
