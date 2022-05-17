@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ public class RoomSpawn : MonoBehaviour
     private List<GameObject> thisRoomList = new List<GameObject>();
     private List<GameObject> validTiles = new List<GameObject>();
     private List<GameObject> wallList = new List<GameObject>();
+    private List<int> compatibleWalls = new List<int>();
     private int rotation;
     private int pushDirection;
     private bool noDodging;
@@ -72,7 +74,15 @@ public class RoomSpawn : MonoBehaviour
 
             for (int x = 0; x < thisRoomList.Count; x++)
             {
-                validTiles.Add(thisRoomList[x]);
+                List<int> temp = addCompatibleWalls(thisRoomList[x].GetComponent<RoomInfo>().outerWalls);
+                for (int j = 0; j < temp.Count; j++)
+                {
+                    if(checkCompatibility(thisRoomList[x].GetComponent<RoomInfo>().outerWalls, temp[j]) == true)
+                    {
+                        validTiles.Add(thisRoomList[x]);
+                        break;
+                    }
+                }
             }
             randomNum = Random.Range(0, thisRoomList.Count);
             if(end == false)
@@ -212,6 +222,16 @@ public class RoomSpawn : MonoBehaviour
             wallPos = wallList[0].GetComponent<WallPositions>();
             Instantiate(wallList[0], new Vector3(gameObject.transform.position.x - wallPos.xPosition, wallPos.yPosition, gameObject.transform.position.z + wallPos.zPosition), Quaternion.Euler(0, 90, 0));
         }
+    }
+    public List<int> addCompatibleWalls(List<int> walls)
+    {
+        List<int> tempList = new List<int>();
+        for (int i = 0; i < walls.Count; i++)
+        {
+            tempList.AddRange(GlobalVars.compatibilityRef[walls[i]]);
+        }
+        tempList = tempList.Distinct().ToList();
+        return tempList;
     }
 
 }
